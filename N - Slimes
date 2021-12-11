@@ -1,0 +1,53 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll 				long long int
+#define ld				long double
+#define mod             		1000000007
+#define endl				"\n"
+#define vi              		vector<int>
+#define vs				vector<string>
+#define ump				unordered_map
+#define mp 				map
+#define mid(l,r)        		(l+(r-l)/2)
+#define loop(i,a,b) 			for(ll i=a;i<=b;i++)
+#define looprev(i,a,b) 			for(ll i=a;i>=b;i--)
+#define swapkro(a,b)        a ^= b; b ^= a;  a ^= b;
+#define inf     1e18
+
+ll dp[405][405];
+ll sum[405][405];
+
+ll solve(vi &a,int i,int j)   {
+   if(i==j) { return 0; }
+   if(dp[i][j] != -1) { return dp[i][j]; }
+   ll mn = inf;
+   loop(k,i,j-1)  {
+      mn = min({mn, solve(a,i,k) + solve(a,k+1,j) + sum[i][j]});
+   }
+   return dp[i][j] = mn;
+}
+
+void file_i_o()
+{
+    ios_base::sync_with_stdio(0); 
+    cin.tie(0); 
+    cout.tie(0);
+}
+
+int main(int argc, char const *argv[]) {
+	file_i_o();
+    ll n;
+    cin>>n;
+    vi arr(n+1,0);
+    loop(i,1,n)   cin>>arr[i];
+    memset(dp,-1,sizeof(dp));
+    memset(sum,0,sizeof(sum));
+    loop(i,1,n) {
+        loop(j,i,n) {
+            sum[i][j] = arr[j] + ((i == j) ? 0 : sum[i][j-1]);
+        }
+    }
+    cout<<solve(arr,1,n);
+	return 0;
+}
