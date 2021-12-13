@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll 				long long int
+#define ld				long double
+#define mod             		1000000007
+#define endl				"\n"
+#define vi              		vector<ll>
+#define vs				vector<string>
+#define ump				unordered_map
+#define mp 				map
+#define mid(l,r)        		(l+(r-l)/2)
+#define loop(i,a,b) 			for(ll i=a;i<=b;i++)
+#define looprev(i,a,b) 			for(ll i=a;i>=b;i--)
+#define swapkro(a,b)        a ^= b; b ^= a;  a ^= b;
+
+void file_i_o()
+{
+    ios_base::sync_with_stdio(0); 
+    cin.tie(0); 
+    cout.tie(0);
+}
+
+int n;
+double dp[302][302][302];
+
+double sushi(ll x,ll y,ll z)    {
+    if(x < 0 or y < 0 or z < 0)   return 0;
+    if(x == 0 and y == 0 and z == 0)  return 0;
+    if(dp[x][y][z] >-0.9)   { return dp[x][y][z]; }
+    double exp = n + x*sushi(x-1,y,z) + y*sushi(x+1,y-1,z) + z*sushi(x,y+1,z-1);
+    return dp[x][y][z] = exp/(x+y+z);
+}
+
+int main(int argc, char const *argv[]) {
+	file_i_o();
+    cin>>n;
+    memset(dp,-1,sizeof(dp));
+    ll one=0;
+    ll two=0;
+    ll three=0;
+    ll x;
+    loop(i,0,n-1)   {
+        cin>>x;
+        if(x == 1)  one++;
+        else if(x == 2)   two++;
+        else    three++;
+    }
+    cout<<fixed<<setprecision(10)<<sushi(one,two,three);
+	return 0;
+}
